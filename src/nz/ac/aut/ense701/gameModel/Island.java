@@ -160,6 +160,24 @@ public class Island
         }
         return isPredator;
     } 
+    public boolean hasBird(Position position) 
+    {
+        GridSquare square = getGridSquare(position);
+        Occupant[] occupants = square.getOccupants();
+        boolean isBird = false;
+        if(occupants.length>0)
+        {
+            int i = 0;
+            while ( i < occupants.length && !isBird ) {
+                Occupant occupant = occupants[i];
+                isBird = occupant instanceof Predator ;
+                i++;
+            }
+    
+                    
+        }
+        return isBird;
+    } 
     
     /************************************************************************************************************************
      * Mutator methods
