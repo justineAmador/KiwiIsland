@@ -2,6 +2,9 @@ package nz.ac.aut.ense701.gui;
 
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import nz.ac.aut.ense701.gameModel.Game;
 import nz.ac.aut.ense701.gameModel.GameEventListener;
@@ -24,7 +27,7 @@ public class KiwiCountUI
      * Creates a GUI for the KiwiIsland game.
      * @param game the game object to represent with this GUI.
      */
-    public KiwiCountUI(Game game) 
+    public KiwiCountUI(Game game) throws IOException 
     {
         assert game != null : "Make sure game object is created before UI";
         this.game = game;
@@ -41,7 +44,11 @@ public class KiwiCountUI
     @Override
     public void gameStateChanged()
     {
-        update();
+        try {
+            update();
+        } catch (IOException ex) {
+            Logger.getLogger(KiwiCountUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         // check for "game over" or "game won"
         if ( game.getState() == GameState.LOST )
@@ -77,7 +84,7 @@ public class KiwiCountUI
     /**
      * Updates the state of the UI based on the state of the game.
      */
-    private void update()
+    private void update() throws IOException
     {
         // update the grid square panels
         Component[] components = pnlIsland.getComponents();
@@ -100,7 +107,7 @@ public class KiwiCountUI
         progBackpackSize.setValue(playerValues[Game.SIZE_INDEX]);
         
         //Update Kiwi and Predator information
-        txtKiwisCounted.setText(Integer.toString(game.getKiwiCount()) );
+        txtKiwisCounted.setText(Integer.toString(game.getFedBirdCount()) );
         txtPredatorsLeft.setText(Integer.toString(game.getPredatorsRemaining()));
         
         // update inventory list
@@ -177,11 +184,11 @@ public class KiwiCountUI
         pnlIsland.setLayout(pnlIslandLayout);
         pnlIslandLayout.setHorizontalGroup(
             pnlIslandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 540, Short.MAX_VALUE)
+            .addGap(0, 651, Short.MAX_VALUE)
         );
         pnlIslandLayout.setVerticalGroup(
             pnlIslandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 618, Short.MAX_VALUE)
+            .addGap(0, 542, Short.MAX_VALUE)
         );
 
         pnlContent.add(pnlIsland, java.awt.BorderLayout.CENTER);
@@ -208,7 +215,7 @@ public class KiwiCountUI
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         pnlPlayerData.add(txtPlayerName, gridBagConstraints);
 
-        lblPlayerStamina.setText("Stamina:");
+        lblPlayerStamina.setText("Bird Happiness:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -557,7 +564,7 @@ public class KiwiCountUI
         if ( occ != null )
         {
             btnCollect.setEnabled(game.canCollect(occ));
-            btnCount.setEnabled(game.canCount(occ));
+            btnCount.setEnabled(game.canFeed(occ));
             listObjects.setToolTipText(game.getOccupantDescription(occ));
         }
     }//GEN-LAST:event_listObjectsValueChanged
@@ -577,7 +584,7 @@ public class KiwiCountUI
     }//GEN-LAST:event_listInventoryValueChanged
 
     private void btnCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCountActionPerformed
-        game.countKiwi();
+        game.feedBird();
     }//GEN-LAST:event_btnCountActionPerformed
     
     /**
