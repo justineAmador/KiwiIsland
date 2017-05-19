@@ -28,6 +28,21 @@ public class Game
     public static final int MAXSIZE_INDEX = 4;
     public static final int SIZE_INDEX = 5;
     
+    private Island island;
+    private Player player;
+    private GameState state;
+    private int fedBirdCount;
+    private int totalPredators;
+    private int totalBirds;
+    private int predatorsTrapped;
+    private Set<GameEventListener> eventListeners;
+    
+    private final double MIN_REQUIRED_CATCH = 0.8;
+        
+    private String winMessage = "";
+    private String loseMessage  = "";
+    private String playerMessage  = "";   
+    
     /**
      * A new instance of Kiwi island that reads data from "IslandData.txt".
      */
@@ -46,9 +61,9 @@ public class Game
     public void createNewGame()
     {
         totalPredators = 0;
-        totalKiwis = 0;
+        totalBirds = 0;
         predatorsTrapped = 0;
-        kiwiCount = 0;
+        fedBirdCount = 0;
         initialiseIslandFromFile("IslandData.txt");
         drawIsland();
         state = GameState.PLAYING;
@@ -195,8 +210,8 @@ public class Game
     public int[] getPlayerValues()
     {
         int[] playerValues = new int[6];
-        playerValues[STAMINA_INDEX ]= (int) player.getStaminaLevel();
-        playerValues[MAXSTAMINA_INDEX]= (int) player.getMaximumStaminaLevel();
+        playerValues[STAMINA_INDEX ]= (int) player.getHappiness();
+        playerValues[MAXSTAMINA_INDEX]= (int) player.getMaximumHappiness();
         playerValues[MAXWEIGHT_INDEX ]= (int) player.getMaximumBackpackWeight();
         playerValues[WEIGHT_INDEX]= (int) player.getCurrentBackpackWeight();
         playerValues[MAXSIZE_INDEX ]= (int) player.getMaximumBackpackSize();
@@ -207,12 +222,12 @@ public class Game
     }
     
     /**
-     * How many kiwis have been counted?
+     * How many birds have been fed?
      * @return count
      */
-    public int getKiwiCount()
+    public int getFedBirdCount()
     {
-        return kiwiCount;
+        return fedBirdCount;
     }
     
     /**
@@ -287,17 +302,17 @@ public class Game
     }
     
     /**
-     * Is this object a countable kiwi
+     * Is this object a countable bird
      * @param itemToCount
-     * @return true if is an item is a kiwi.
+     * @return true if is an item is a bird.
      */
-    public boolean canCount(Object itemToCount)
+    public boolean canFeed(Object birdToFeed)
     {
-        boolean result = (itemToCount != null)&&(itemToCount instanceof Kiwi);
+        boolean result = birdToFeed instanceof Bird;
         if(result)
         {
-            Kiwi kiwi = (Kiwi) itemToCount;
-            result = !kiwi.counted();
+            Bird bird = (Bird) birdToFeed;
+            result = !bird.fed();
         }
         return result;
     }
@@ -311,9 +326,13 @@ public class Game
         boolean result = (itemToUse != null)&&(itemToUse instanceof Item);
         if(result)
         {
-            //Food can always be used (though may be wasted)
-            // so no need to change result
+            //BirdFood can now only be used when within a tile occupied by a NativeBird.
 
+            if(itemToUse instanceof BirdFood)
+            {
+                //Bird Food can only be used if there is a bird to feed.
+                result = island.hasBird(player.getPosition());
+            } 
             if(itemToUse instanceof Tool)
             {
                 Tool tool = (Tool)itemToUse;
@@ -331,7 +350,7 @@ public class Game
                 {
                     result = false;
                 }
-            }            
+            } 
         }
         return result;
     }
@@ -440,12 +459,12 @@ public class Game
     public boolean useItem(Object item)
     {  
         boolean success = false;
-        if ( item instanceof Food && player.hasItem((Food) item) )
-        //Player east food to increase stamina
+        if ( item instanceof BirdFood && player.hasItem((BirdFood) item) && this.canUse(item) )
+        //Player feeds bird food to birds to increase bird happiness.
         {
-            Food food = (Food) item;
+            BirdFood food = (BirdFood) item;
             // player gets energy boost from food
-            player.increaseStamina(food.getEnergy());
+            player.increaseHappiness(food.getEnergy());
             // player has consumed the food: remove from inventory
             player.drop(food);
             // use successful: everybody has to know that
@@ -474,6 +493,7 @@ public class Game
     /**
      * Count any kiwis in this position
      */
+    /*
     public void countKiwi() 
     {
         //check if there are any kiwis here
@@ -483,6 +503,21 @@ public class Game
                 if (!kiwi.counted()) {
                     kiwi.count();
                     kiwiCount++;
+                }
+            }
+        }
+        updateGameState();
+    }
+    */
+    public void feedBird() 
+    {
+        //check if there are any kiwis here
+        for (Occupant occupant : island.getOccupants(player.getPosition())) {
+            if (occupant instanceof Bird) {
+                Bird bird = (Bird) occupant;
+                if (!bird.fed()) {
+                    bird.feed();
+                    fedBirdCount++;
                 }
             }
         }
@@ -511,7 +546,8 @@ public class Game
                     
             // Is there a hazard?
             checkForHazard();
-
+            player.setHappiness((totalPredators - predatorsTrapped), fedBirdCount);
+            System.out.println("HI");
             updateGameState();            
         }
         return successfulMove;
@@ -568,12 +604,12 @@ public class Game
             message = "You win! You have done an excellent job and trapped all the predators.";
             this.setWinMessage(message);
         }
-        else if(kiwiCount == totalKiwis)
+        else if(fedBirdCount == totalBirds)
         {
             if(predatorsTrapped >= totalPredators * MIN_REQUIRED_CATCH)
             {
                 state = GameState.WON;
-                message = "You win! You have counted all the kiwi and trapped at least 80% of the predators.";
+                message = "You win! You have fed all the Birds and trapped at least 80% of the predators.";
                 this.setWinMessage(message);
             }
         }
@@ -660,7 +696,7 @@ public class Game
      * @param hazard to handle
      */
     private void handleHazard(Hazard hazard) {
-        if (hazard.isFatal()) 
+       /* if (hazard.isFatal()) 
         {
             player.kill();
             this.setLoseMessage(hazard.getDescription() + " has killed you.");
@@ -688,7 +724,7 @@ public class Game
             {
                 this.setPlayerMessage(hazard.getDescription() + " has reduced your stamina.");
             }
-        }
+        }*/
     }
     
     
@@ -814,7 +850,7 @@ public class Game
                 double weight = input.nextDouble();
                 double size   = input.nextDouble();
                 double energy = input.nextDouble();
-                occupant = new Food(occPos, occName, occDesc, weight, size, energy);
+                occupant = new BirdFood(occPos, occName, occDesc, weight, size, energy);
             }
             else if ( occType.equals("H") )
             {
@@ -823,8 +859,8 @@ public class Game
             }
             else if ( occType.equals("K") )
             {
-                occupant = new Kiwi(occPos, occName, occDesc);
-                totalKiwis++;
+                occupant = new Bird(occPos, occName, occDesc);
+                totalBirds++;
             }
             else if ( occType.equals("P") )
             {
@@ -838,25 +874,6 @@ public class Game
             if ( occupant != null ) island.addOccupant(occPos, occupant);
         }
     }    
-
-
-    private Island island;
-    private Player player;
-    private GameState state;
-    private int kiwiCount;
-    private int totalPredators;
-    private int totalKiwis;
-    private int predatorsTrapped;
-    private Set<GameEventListener> eventListeners;
-    
-    private final double MIN_REQUIRED_CATCH = 0.8;
-        
-    private String winMessage = "";
-    private String loseMessage  = "";
-    private String playerMessage  = "";   
-
-    
-
-
+ 
 
 }
