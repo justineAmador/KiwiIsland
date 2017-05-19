@@ -46,26 +46,42 @@ public class KiwiCountUI
         // check for "game over" or "game won"
         if ( game.getState() == GameState.LOST )
         {
+            try{PlaySounds.play("Sound/game-over.wav");}
+                    catch (Exception e){
+
+                    }
             JOptionPane.showMessageDialog(
                     this, 
                     game.getLoseMessage(), "Game over!",
                     JOptionPane.INFORMATION_MESSAGE);
+                    
             game.createNewGame();
         }
         else if ( game.getState() == GameState.WON )
         {
+           try{PlaySounds.play("Sound/button.wav");}
+                    catch (Exception e){
+
+                    }
             JOptionPane.showMessageDialog(
                     this, 
                     game.getWinMessage(), "Well Done!",
+                
                     JOptionPane.INFORMATION_MESSAGE);
+                    
             game.createNewGame();
         }
         else if (game.messageForPlayer())
         {
+             try{PlaySounds.play("Sound/button.wav");}
+                    catch (Exception e){
+
+                    }
             JOptionPane.showMessageDialog(
                     this, 
                     game.getPlayerMessage(), "Important Information",
                     JOptionPane.INFORMATION_MESSAGE);   
+                   
         }
     }
     
@@ -529,27 +545,53 @@ public class KiwiCountUI
 
     private void btnMoveEastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveEastActionPerformed
         game.playerMove(MoveDirection.EAST);
+        try{PlaySounds.play("Sound/button.wav");}
+        catch (Exception e){
+            
+        }
     }//GEN-LAST:event_btnMoveEastActionPerformed
 
     private void btnMoveNorthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveNorthActionPerformed
         game.playerMove(MoveDirection.NORTH);
+        try{PlaySounds.play("Sound/button.wav");}
+        catch (Exception e){
+            
+        }
+        
+        
     }//GEN-LAST:event_btnMoveNorthActionPerformed
 
     private void btnMoveSouthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveSouthActionPerformed
         game.playerMove(MoveDirection.SOUTH);
+        try{PlaySounds.play("Sound/button.wav");}
+        catch (Exception e){
+            
+        }
     }//GEN-LAST:event_btnMoveSouthActionPerformed
 
     private void btnMoveWestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveWestActionPerformed
         game.playerMove(MoveDirection.WEST);
+        try{PlaySounds.play("Sound/button.wav");}
+        catch (Exception e){
+            
+        }
     }//GEN-LAST:event_btnMoveWestActionPerformed
 
     private void btnCollectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCollectActionPerformed
         Object obj = listObjects.getSelectedValue();
         game.collectItem(obj);
+        try{PlaySounds.play("Sound/button.wav");}
+        catch (Exception e){
+            
+        }
     }//GEN-LAST:event_btnCollectActionPerformed
 
     private void btnDropActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDropActionPerformed
         game.dropItem(listInventory.getSelectedValue());
+        try{PlaySounds.play("Sound/button.wav");}
+        catch (Exception e){
+            
+        }
     }//GEN-LAST:event_btnDropActionPerformed
 
     private void listObjectsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listObjectsValueChanged
@@ -564,6 +606,10 @@ public class KiwiCountUI
 
     private void btnUseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUseActionPerformed
         game.useItem( listInventory.getSelectedValue());
+        try{PlaySounds.play("Sound/button.wav");}
+        catch (Exception e){
+            
+        }
     }//GEN-LAST:event_btnUseActionPerformed
 
     private void listInventoryValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listInventoryValueChanged
@@ -578,6 +624,10 @@ public class KiwiCountUI
 
     private void btnCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCountActionPerformed
         game.countKiwi();
+        try{PlaySounds.play("Sound/button.wav");}
+        catch (Exception e){
+            
+        }
     }//GEN-LAST:event_btnCountActionPerformed
     
     /**
