@@ -1,6 +1,8 @@
 package nz.ac.aut.ense701.gui;
 
 import java.awt.Color;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import nz.ac.aut.ense701.gameModel.Game;
@@ -55,7 +57,20 @@ public class GridSquarePanel extends javax.swing.JPanel
         {
             // Set the text of the JLabel according to the occupant
             lblText.setText(game.getOccupantStringRepresentation(row,column));
-            // Set the colour. 
+             //this generates an image file
+             
+            
+                if(game.getOccupantStringRepresentation(row,column)!=""){
+                    System.out.println(game.getOccupantStringRepresentation(row,column));
+                    ImageIcon imageIcon = new ImageIcon("Image/"+game.getOccupantStringRepresentation(row,column)+".jpg"); // load the image to a imageIcon
+                    Image image = imageIcon.getImage(); // transform it 
+                    Image newimg = image.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+                    imageIcon = new ImageIcon(newimg); 
+                    lblText.setIcon(imageIcon);
+                }
+            
+                
+               // Set the colour. 
             if ( squareVisible && !squareExplored ) 
             {
                 // When explored the colour is brighter
@@ -75,6 +90,8 @@ public class GridSquarePanel extends javax.swing.JPanel
             setBorder(normalBorder);
         }
     }
+    
+    
     
     /** This method is called from within the constructor to
      * initialize the form.
