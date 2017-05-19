@@ -1,5 +1,7 @@
 package nz.ac.aut.ense701.gameModel;
 
+
+
 /**
  * A class to represent an island in the world on which the game is played.
  * @author AS
@@ -11,6 +13,9 @@ public class Island
     private final int numColumns;
     private GridSquare[][] islandGrid;
     private Position previousPlayerPos;
+    
+  
+    //lblText= GridSquarePanel.ReturnLabel();
 
    
     /**
@@ -279,6 +284,7 @@ public class Island
      */
     public void draw() 
     {
+        
         final int CELL_SIZE = 4;
         
         // create the horizontal line as a string
@@ -293,6 +299,7 @@ public class Island
         // print the content
         for ( int row = 0; row < this.numRows; row++ ) 
         { 
+           
             String rowOccupant = "|";
             String rowTerrain  = "|";
             for ( int col = 0; col < this.numColumns; col++ ) 
@@ -305,7 +312,7 @@ public class Island
                     cellOccupant += " ";
                 }
                 rowOccupant += cellOccupant + "|";
-                
+                 
                 // create string with terrain
                 String cellTerrain = "";
                 for ( int i = 0 ; i < CELL_SIZE ; i++ ) {
@@ -369,4 +376,6 @@ public class Island
         return result;
     }
 
-}
+}        
+
+
