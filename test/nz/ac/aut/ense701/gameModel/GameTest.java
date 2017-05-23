@@ -209,7 +209,7 @@ public class GameTest extends junit.framework.TestCase
     @Test
     public void testGetKiwiCountInitial()
     {
-       assertEquals("Shouldn't have counted any kiwis yet",game.getKiwiCount(),0); 
+       assertEquals("Shouldn't have counted any kiwis yet",game.getFedBirdCount(),0); 
     }
     /**
      * Test for mutator methods
@@ -422,8 +422,8 @@ public class GameTest extends junit.framework.TestCase
     {
         //Need to move to a place where there is a kiwi
         assertTrue (" This move valid", playerMoveEast(5));
-        game.countKiwi();
-        assertEquals("Wrong count", game.getKiwiCount(), 1);
+        game.feedBird();
+        assertEquals("Wrong count", game.getFedBirdCount(), 1);
     }
 
 /**
