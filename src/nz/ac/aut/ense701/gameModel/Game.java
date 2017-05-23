@@ -42,6 +42,7 @@ public class Game
     private String winMessage = "";
     private String loseMessage  = "";
     private String playerMessage  = "";   
+
     private String playerName = "";
     
     /**

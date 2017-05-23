@@ -19,7 +19,9 @@ public class Player
     
     private final ArrayList<Object> inventory;    
     private Position  position;
-    private String    name;
+
+    private final String    name;
+
     //private final double    maxStamina;
     private final double    maxHappiness;
     private double    stamina;
@@ -116,7 +118,8 @@ public class Player
      * @return the amount of stamina needed for the next move
      */
     public void setHappiness(int fedBirds, int predators){
-        this.birdHappiness -= 1;//(happiness*(predators - fedBirds));
+
+        this.birdHappiness -=1; //(happiness*(predators - fedBirds));
         System.out.println("Happiness:" + this.birdHappiness);
     }
     

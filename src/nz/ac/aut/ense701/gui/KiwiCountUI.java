@@ -2,8 +2,10 @@ package nz.ac.aut.ense701.gui;
 
 import java.awt.Component;
 import java.awt.GridLayout;
+Iteration2-Improvements
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -181,7 +183,9 @@ import nz.ac.aut.ense701.gameModel.MoveDirection;
         pnlIsland.setLayout(pnlIslandLayout);
         pnlIslandLayout.setHorizontalGroup(
             pnlIslandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            
             .addGap(0, 658, Short.MAX_VALUE)
+
         );
         pnlIslandLayout.setVerticalGroup(
             pnlIslandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

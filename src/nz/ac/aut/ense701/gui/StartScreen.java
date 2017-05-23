@@ -5,6 +5,7 @@
  */
 package nz.ac.aut.ense701.gui;
 
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,11 +16,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import nz.ac.aut.ense701.gameModel.Game;
 
+
 /**
  *
  * @author James
  */
 public class StartScreen extends javax.swing.JFrame {
+
 
     private StartScreen start;
     /**
@@ -38,6 +41,7 @@ public class StartScreen extends javax.swing.JFrame {
             JLabel picLabel = new JLabel(new ImageIcon(myPicture));
             this.add(picLabel);
             }
+
     }
 
     /**
@@ -49,11 +53,13 @@ public class StartScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+
         startButton = new javax.swing.JButton();
         quitButton = new javax.swing.JButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jLabel1 = new javax.swing.JLabel();
         title = new java.awt.Label();
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Battle for Our Birds!");
@@ -97,11 +103,14 @@ public class StartScreen extends javax.swing.JFrame {
         title.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         title.setText("Battle for our Birds!");
 
+
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+
                 .addGap(0, 7, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -114,10 +123,13 @@ public class StartScreen extends javax.swing.JFrame {
                         .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+
+
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,11 +138,13 @@ public class StartScreen extends javax.swing.JFrame {
                         .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(quitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         // TODO add your handling code here:
@@ -161,9 +175,11 @@ public class StartScreen extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_quitButtonActionPerformed
 
+
     /**
      * @param args the command line arguments
      */
+
    public static void main(String[] args) throws IOException 
     {
         // create the game object
@@ -185,5 +201,5 @@ public class StartScreen extends javax.swing.JFrame {
     private javax.swing.JButton quitButton;
     private javax.swing.JButton startButton;
     private java.awt.Label title;
-    // End of variables declaration//GEN-END:variables
+
 }
