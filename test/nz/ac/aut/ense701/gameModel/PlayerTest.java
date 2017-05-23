@@ -94,24 +94,11 @@ public class PlayerTest extends junit.framework.TestCase
     }
     
     @Test
-    public void testGetMaximumStaminaLevel()
+    public void testGetMaximumHappinessLevel()
     {
-        assertEquals(25.0, player.getMaximumStaminaLevel(), 0.01);
+        assertEquals(25.0, player.getMaximumHappiness(), 0.01);
     }  
-    
-    @Test
-    public void testGetStaminaLevel()
-    {
-        assertEquals(25.0, player.getStaminaLevel(), 0.01);
-    }
 
-
-    @Test
-    public void testReduceStamina()
-    {
-        player.reduceStamina(7.0);
-        assertEquals(18.0, player.getStaminaLevel(), 0.01);
-    } 
     
     @Test
     public void testReduceStaminaPastZero()
@@ -119,35 +106,8 @@ public class PlayerTest extends junit.framework.TestCase
         player.reduceStamina(26.0);
         assertEquals(0.0, player.getStaminaLevel(), 0.01);
     } 
-    
-    @Test
-    public void testReduceStaminaByNegative()
-    {
-        player.reduceStamina(-1.0);
-        assertEquals(25.0, player.getStaminaLevel(), 0.01);
-    }
-    
-    @Test 
-    public void testIncreaseStamina()
-    {
-        player.reduceStamina(7.0);
-        player.increaseStamina(4.0);
-        assertEquals(22.0, player.getStaminaLevel(), 0.01);
-    } 
-    
-    @Test
-    public void testIncreaseStaminaPastZero()
-    {
-        player.increaseStamina(4.0);
-        assertEquals(25.0, player.getStaminaLevel(), 0.01);
-    } 
-    
-    @Test
-    public void testIncreaseStaminaByNegative()
-    {
-        player.increaseStamina(-1.0);
-        assertEquals(25.0, player.getStaminaLevel(), 0.01);
-    }
+
+
 
     @Test
     public void testhasStaminaToMoveEnoughStamina()
@@ -155,32 +115,6 @@ public class PlayerTest extends junit.framework.TestCase
         assertTrue(player.hasStaminaToMove(Terrain.SAND));
     }
 
-    @Test
-    public void testhasStaminaToMoveNotEnoughStaminaForTerrain()
-    {
-        player.reduceStamina(23);
-        assertFalse(player.hasStaminaToMove(Terrain.SCRUB));
-    }
-
-    @Test
-    public void testhasStaminaToMoveNotEnoughStaminaFullBackpack()
-    {
-       // reduce stamina so under four required for FOREST with full backpack
-        player.reduceStamina(22.0);
-        Tool fullLoad = new Tool(playerPosition, "full", "A full load.", 14.5, 1.5);
-        player.collect(fullLoad);
-        assertFalse(player.hasStaminaToMove(Terrain.FOREST));
-    }
-
-    @Test
-    public void testhasStaminaToMoveNotEnoughStaminaPartlyFullBackpack()
-    {
-       // reduce stamina so 50% backpack load takes over limit
-        player.reduceStamina(23.0);
-        Tool partLoad = new Tool(playerPosition, "part", "A part load.", 7.5, 1.5);
-        player.collect(partLoad);
-        assertFalse(player.hasStaminaToMove(Terrain.FOREST));
-    }
   
     @Test
     public void testIsAlive()
@@ -299,22 +233,6 @@ public class PlayerTest extends junit.framework.TestCase
         assertFalse(player.drop(sandwich));
     }
 
-    @Test
-    public void testMoveToPositionEnoughStamina()
-    {
-        Position newPosition = new Position(island, 0,1);
-        player.moveToPosition(newPosition, Terrain.SAND);
-        assertEquals(newPosition, player.getPosition());
-        assertEquals(24.0, player.getStaminaLevel(), 0.01);
-    }
-
-    @Test
-    public void testMoveToPositionNotEnoughStamina()
-    {
-        Position newPosition = new Position(island, 0,1);
-        player.reduceStamina(23);
-        player.moveToPosition(newPosition, Terrain.SCRUB);
-        assertEquals(playerPosition, player.getPosition());
-        assertEquals(2.0, player.getStaminaLevel(), 0.01);
-    }
+ 
+ 
 }
