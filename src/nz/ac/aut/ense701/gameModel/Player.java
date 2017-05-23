@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -13,12 +14,16 @@ import java.util.HashSet;
  */
 public class Player 
 {
-    public static final double MOVE_STAMINA = 1.0;
+    public double MOVE_STAMINA = 0;
+    public double happiness = 0;
     
+    private final ArrayList<Object> inventory;    
     private Position  position;
-    private final String    name;
-    private final double    maxStamina;
+    private String    name;
+    //private final double    maxStamina;
+    private final double    maxHappiness;
     private double    stamina;
+    private double    birdHappiness;
     private boolean   alive;
     private Set<Item> backpack;
     private final double    maxBackpackWeight;
@@ -33,18 +38,19 @@ public class Player
      * @param maxBackpackWeight the most weight that can be in a backpack
      * @param maxBackpackSize the maximum size items that will fit in the backpack     
      */    
-    public Player(Position position, String name, double maxStamina,
+    public Player(Position position, String name, double maxHappiness,
                   double maxBackpackWeight, double maxBackpackSize)
     {
+       this.inventory = new ArrayList();
        this.position          = position;
        this.name              = name;
-       this.maxStamina        = maxStamina;
-       this.stamina = maxStamina;
+       this.maxHappiness        = maxHappiness;
+       this.birdHappiness = maxHappiness/2;
        this.maxBackpackWeight = maxBackpackWeight;
        this.maxBackpackSize = maxBackpackSize;
        this.alive = true;
-       this.backpack = new HashSet<Item>();
-    }   
+       this.backpack = new HashSet<Item>();  
+    }
     
     /*****************************************************************************************************
      * Accessor methods
@@ -59,6 +65,9 @@ public class Player
         return this.name;
     }
     
+    public void setPlayerName(String name){
+        this.name = name;
+    }
     /**
      * Gets the current position of the player.
      * @return the current position of the player
@@ -81,9 +90,9 @@ public class Player
      * Get the maximum stamina for the player.
      * @return maximum stamina
      */
-    public double getMaximumStaminaLevel()
+    public double getMaximumHappiness()
     {
-       return this.maxStamina;
+       return this.maxHappiness;
     }
 
     /**
@@ -94,6 +103,11 @@ public class Player
     {
        return this.stamina;
     }
+    
+    public double getHappiness()
+    {
+       return this.birdHappiness;
+    }
 
 
     /**
@@ -101,6 +115,11 @@ public class Player
      * @param terrain the terrain to move in
      * @return the amount of stamina needed for the next move
      */
+    public void setHappiness(int fedBirds, int predators){
+        this.birdHappiness -= 1;//(happiness*(predators - fedBirds));
+        System.out.println("Happiness:" + this.birdHappiness);
+    }
+    
     public double getStaminaNeededToMove(Terrain terrain)
     {
         double staminaNeeded = MOVE_STAMINA;
@@ -253,6 +272,7 @@ public class Player
     {
         this.alive = false;
     } 
+   
     
     /**
      * Decrease the stamina level by reduction.
@@ -270,13 +290,24 @@ public class Player
           }
        }    
     }    
+    public void reduceHappiness(double reduction)
+    {
+       if ( reduction > 0 )
+       { 
+          this.birdHappiness -= reduction;
+          if ( this.birdHappiness < 0.0 )
+          {
+             this.birdHappiness = 0.0; 
+          }
+       }    
+    } 
     
     /**
      * Increase the stamina level of the player.
      * 
      * @param increase the amount of stamina increase
      */
-    public void increaseStamina(double increase)
+   /* public void increaseStamina(double increase)
     {
        if ( increase > 0 && isAlive() )
        {         
@@ -285,6 +316,17 @@ public class Player
        if ( stamina > maxStamina )
        {
            stamina = maxStamina;
+       }
+    }*/
+    public void increaseHappiness(double increase)
+    {
+       if ( increase > 0 && isAlive() )
+       {         
+          this.birdHappiness += increase;    
+       }
+       if ( this.birdHappiness > maxHappiness )
+       {
+           this.birdHappiness = maxHappiness;
        }
     }
     
@@ -355,6 +397,7 @@ public class Player
         {
             this.position = newPosition;
             reduceStamina(getStaminaNeededToMove(terrain));
+            this.setHappiness(0, 0);
         }
     }
 }
