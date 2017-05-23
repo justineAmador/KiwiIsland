@@ -19,7 +19,9 @@ public class Player
     
     private final ArrayList<Object> inventory;    
     private Position  position;
+
     private final String    name;
+
     //private final double    maxStamina;
     private final double    maxHappiness;
     private double    stamina;
@@ -65,6 +67,9 @@ public class Player
         return this.name;
     }
     
+    public void setPlayerName(String name){
+        this.name = name;
+    }
     /**
      * Gets the current position of the player.
      * @return the current position of the player
@@ -113,7 +118,9 @@ public class Player
      * @return the amount of stamina needed for the next move
      */
     public void setHappiness(int fedBirds, int predators){
-        this.birdHappiness -= (happiness*(predators - fedBirds));
+
+        this.birdHappiness -=1; //(happiness*(predators - fedBirds));
+        System.out.println("Happiness:" + this.birdHappiness);
     }
     
     public double getStaminaNeededToMove(Terrain terrain)
@@ -268,6 +275,7 @@ public class Player
     {
         this.alive = false;
     } 
+   
     
     /**
      * Decrease the stamina level by reduction.

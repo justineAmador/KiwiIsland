@@ -50,7 +50,10 @@ public class GridSquarePanel extends javax.swing.JPanel
             JLabel picLabel = new JLabel(new ImageIcon(myPicture));
             this.add(picLabel);
             imageAdded = true;
-            picLabel.setText(game.getOccupantStringRepresentation(row,column));
+            
+            //picLabel.setText(game.getOccupantStringRepresentation(row,column));
+
+            
         }
         return imageAdded;
     }

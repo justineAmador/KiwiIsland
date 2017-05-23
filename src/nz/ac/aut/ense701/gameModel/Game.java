@@ -42,6 +42,8 @@ public class Game
     private String winMessage = "";
     private String loseMessage  = "";
     private String playerMessage  = "";   
+
+    private String playerName = "";
     
     /**
      * A new instance of Kiwi island that reads data from "IslandData.txt".
@@ -53,7 +55,9 @@ public class Game
         createNewGame();
     }
     
-    
+    public void setName(String name){
+        this.playerName += name;
+    }
     /**
      * Starts a new game.
      * At this stage data is being read from a text file
@@ -71,6 +75,7 @@ public class Game
         loseMessage = "";
         playerMessage = "";
         notifyGameEventListeners();
+        
     }
 
     /***********************************************************************************************************************
@@ -547,7 +552,7 @@ public class Game
             // Is there a hazard?
             checkForHazard();
             player.setHappiness((totalPredators - predatorsTrapped), fedBirdCount);
-            System.out.println("HI");
+
             updateGameState();            
         }
         return successfulMove;
@@ -801,6 +806,7 @@ public class Game
             }
         }
     }
+  
 
     /**
      * Reads player data and creates the player.
